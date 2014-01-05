@@ -119,29 +119,33 @@ function coordselect!(balls::Vector{AbstractBallTreeNode},
 	return
 end
 
+# Doing this exactly is too slow when data set is large
+# Use a randomized algorithm instead
 function findmax_spreadcoord(balls::Vector{AbstractBallTreeNode},
 	                         l::Integer,
 	                         u::Integer)
-	max_spread = -Inf
-	max_coord = -1
+	# max_spread = -Inf
+	# max_coord = -1
 	p = length(balls[1].ball.center)
-	n = length(balls)
-	for c in 1:p
-		min_c, max_c = Inf, -Inf
-		for i in 1:n
-			if balls[i].ball.center[c] < min_c
-				min_c = balls[i].ball.center[c]
-			end
-			if balls[i].ball.center[c] > max_c
-				max_c = balls[i].ball.center[c]
-			end
-		end
-		spread = max_c - min_c
-		if spread > max_spread
-			max_spread, max_coord = spread, c
-		end
-	end
-	return max_coord
+	return rand(1:p)
+	# n = length(balls)
+	# for itr in 1:3
+	# 	c = rand(1:p)
+	# 	min_c, max_c = Inf, -Inf
+	# 	for i in 1:n
+	# 		if balls[i].ball.center[c] < min_c
+	# 			min_c = balls[i].ball.center[c]
+	# 		end
+	# 		if balls[i].ball.center[c] > max_c
+	# 			max_c = balls[i].ball.center[c]
+	# 		end
+	# 	end
+	# 	spread = max_c - min_c
+	# 	if spread > max_spread
+	# 		max_spread, max_coord = spread, c
+	# 	end
+	# end
+	# return max_coord
 end
 
 # Construct a BallTreeNode that wraps the l-th through u-th elements of balls

@@ -4,8 +4,7 @@
 
 using Base.Test
 
-my_tests = ["test/naive.jl",
-            "test/balltree.jl"]
+my_tests = ["naive.jl"]
 
 println("Running tests:")
 
