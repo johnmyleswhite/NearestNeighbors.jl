@@ -1,4 +1,4 @@
-immutable NaiveNeighborTree{T <: Real}
+immutable NaiveNeighborTree{T <: Real} <: NearestNeighborTree
 	X::Matrix{T}
 	metric::Metric
 end
