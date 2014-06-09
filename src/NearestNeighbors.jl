@@ -2,8 +2,10 @@ module NearestNeighbors
 	using Base.Collections
 	using Distance
 
+	export AbstractNearestNeighborTree, NearestNeighborTree
+
 	export NaiveNeighborTree
-	# export KDTree, BallTree, CoverTree
+	export KDTree #, BallTree, CoverTree
 	export nearest, inball
 
 	# export AbstractBall, Ball, EmptyBall
@@ -11,9 +13,10 @@ module NearestNeighbors
 
 	# export intersects
 
+	include("generic.jl")
 	include("utils.jl")
 	include("naive.jl")
-	# include("kdtree.jl")
+	include("kdtree.jl")
 	# include("ball.jl")
 	# include("balltree.jl")
 	# TODO: Implement cover-trees

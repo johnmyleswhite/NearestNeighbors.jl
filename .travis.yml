@@ -1,0 +1,15 @@
+language: cpp
+compiler:
+    - clang
+notifications:
+    email: false
+before_install:
+    - sudo add-apt-repository ppa:staticfloat/julia-deps -y
+    - sudo add-apt-repository ppa:staticfloat/julianightlies -y
+    - sudo apt-get update -qq -y
+    - sudo apt-get install libpcre3-dev julia -y
+script:
+    - julia -e 'Pkg.init(); Pkg.clone("https://github.com/wildart/Distance.jl.git")'
+    - julia -e 'run(`ln -s $(pwd()) $(Pkg.dir())/NearestNeighbors`); Pkg.pin("NearestNeighbors"); Pkg.resolve()'
+    - julia -e 'using NearestNeighbors; @assert isdefined(:NearestNeighbors); @assert typeof(NearestNeighbors) === Module'
+    - julia test/runtests.jl
