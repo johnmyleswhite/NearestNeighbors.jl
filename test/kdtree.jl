@@ -34,10 +34,15 @@ module TestKDTree
 
 
 	X = readdlm(Pkg.dir("NearestNeighbors", "test", "iris.csv"), ',')
-	t = KDTree(X)
+	kdt = KDTree(X)
+	nnt = NaiveNeighborTree(X)
 	v = X[:, 84]
 
-	@test sort(nearest(t, v, 1)[1])[1] == 84
-	@test sort(nearest(t, v, 2)[1])[1] == 84
-	@test sort(nearest(t, v, 3)[1])[1] == 84
+	@test sort(nearest(kdt, v, 1)[1])[1] == 84
+	@test sort(nearest(kdt, v, 2)[1])[1] == 84
+	@test sort(nearest(kdt, v, 3)[1])[1] == 84
+	@test sort(nearest(kdt, v, 3)[1]) == sort(nearest(nnt, v, 3)[1])
+	@test sort(nearest(kdt, v, 3, 84)[1]) == sort(nearest(nnt, v, 3, 84)[1])
+	@test sort(inball(kdt, v, .5)[1]) == sort(inball(nnt, v, .5)[1])
+	@test sort(inball(kdt, v, .5, 84)[1]) == sort(inball(nnt, v, .5, 84)[1])
 end
