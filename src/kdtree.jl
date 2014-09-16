@@ -84,9 +84,13 @@ function search_leaf{T <: Real}(n::KDTreeNode{T},
 						x::Vector{T},
 						h::Array{Float64,1},
 						index::Array{Int},
+						exclude::Integer,
 						m::Metric)
 
 	if n.leaf
+		if n.i == exclude
+			return
+		end
 		d = evaluate(m, x, n.k)
 		if (d < h[1])
 			h[end]=d
@@ -104,32 +108,73 @@ function search_leaf{T <: Real}(n::KDTreeNode{T},
 		end
 
 		# Search the nearest branch
-		search_leaf(near, x, h, index, m)
+		search_leaf(near, x, h, index, exclude, m)
 
 		# Only search far tree if do not have enough neighbors
 		d = evaluate(m, float64(x[n.d]), n.s)
 		if d <= h[1]
-			search_leaf(far, x, h, index, m)
+			search_leaf(far, x, h, index, exclude, m)
 		end
 	end
 end
 
 function nearest{T <: Real}(t::KDTree,
 							x::Vector{T},
-							k::Int)
+							k::Integer = 1,
+							exclude::Integer = -1)
 	h = fill(Inf, k+1)
 	index = fill(0, k+1)
 
-	search_leaf(t.root, x, h, index, t.metric)
+	search_leaf(t.root, x, h, index, exclude, t.metric)
 
 	return index[1:end-1], h[1:end-1]
+end
+
+function search_leaf{T <: Real}(n::KDTreeNode{T},
+									 v::Vector{T},
+									 r::Real,
+									 ds::Vector{Float64},
+									 is::Array{Int},
+									 exclude::Integer,
+									 m::Metric)
+	if n.leaf
+		if n.i == exclude
+			return
+		end
+		d = evaluate(m, v, n.k)
+		if (d < r)
+			push!(ds, d)
+			push!(is, n.i)
+		end
+	else
+		# Determine near and far branches
+		if (v[n.d] > n.s)
+			near = n.right
+			far = n.left
+		else
+			near = n.left
+			far = n.right
+		end
+
+		# Search the near branch
+		search_leaf(near, v, r, ds, is, exclude, m)
+
+		d = evaluate(m, float64(v[n.d]), n.s)
+		if d <= r
+			search_leaf(far, v, r, ds, is, exclude, m)
+		end
+	end
 end
 
 function inball{T <: Real}(t::KDTree,
 						   v::Vector{T},
 	                       r::Real,
 	                       exclude::Integer = -1)
-	error("Not yet implemented")
+	is, ds = Int[], Float64[]
+
+	search_leaf(t.root, v, r, ds, is, exclude, t.metric)
+
+	return is, ds
 end
 
 # Binary heap indexing
