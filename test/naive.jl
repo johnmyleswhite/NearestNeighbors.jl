@@ -1,6 +1,6 @@
 module TestNaive
 	using Base.Test
-    using Distance
+    using Distances
 	using NearestNeighbors
 
     X = readcsv(Pkg.dir("NearestNeighbors", "test", "iris.csv"))

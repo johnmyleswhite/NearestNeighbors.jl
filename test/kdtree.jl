@@ -1,6 +1,6 @@
 module TestKDTree
 	using Base.Test
-	using Distance
+	using Distances
 	using NearestNeighbors
 
 	# Empty tree
