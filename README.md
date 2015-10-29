@@ -18,7 +18,7 @@ The main API for each search structure is:
 
 # Usage Example
 
-    using Distance
+    using Distances
     using NearestNeighbors
 
     X = readcsv(Pkg.dir("NearestNeighbors", "test", "iris.csv"))

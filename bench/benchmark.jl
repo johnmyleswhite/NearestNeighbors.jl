@@ -1,4 +1,4 @@
-using Distance
+using Distances
 using NearestNeighbors
 using StatsBase
 
