@@ -1,6 +1,6 @@
 module TestKDTree
 	using Base.Test
-	using Distance
+	using Distances
 	using NearestNeighbors
 
 	# Empty tree
@@ -33,7 +33,7 @@ module TestKDTree
 	@test_approx_eq(2.0, dist[2])
 
 
-	X = readdlm(Pkg.dir("NearestNeighbors", "test", "iris.csv"), ',')
+	X = readdlm("test/iris.csv", ',')
 	t = KDTree(X)
 	v = X[:, 84]
 

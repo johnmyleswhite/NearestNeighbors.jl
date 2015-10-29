@@ -22,7 +22,7 @@ type KDTree <: NearestNeighborTree
 	metric::Metric
 	root:: AbstractKDTree
 
-	KDTree() = new (Euclidean(), EmptyKDTree())
+	KDTree() = new(Euclidean(), EmptyKDTree())
 	KDTree(metric::Metric) = new(metric, EmptyKDTree())
 	KDTree(k, i, metric::Metric) = new(metric, setindex!(EmptyKDTree(), i, k))
 
@@ -107,7 +107,7 @@ function search_leaf{T <: Real}(n::KDTreeNode{T},
 		search_leaf(near, x, h, index, m)
 
 		# Only search far tree if do not have enough neighbors
-		d = evaluate(m, float64(x[n.d]), n.s)
+		d = evaluate(m, Float64(x[n.d]), n.s)
 		if d <= h[1]
 			search_leaf(far, x, h, index, m)
 		end
