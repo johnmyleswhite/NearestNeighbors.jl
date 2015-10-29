@@ -1,6 +1,6 @@
 module NearestNeighbors
 	using Base.Collections
-	using Distance
+	using Distances
 
 	export AbstractNearestNeighborTree, NearestNeighborTree
 

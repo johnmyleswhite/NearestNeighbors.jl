@@ -17,7 +17,7 @@ function nearest{T <: Real}(t::NaiveNeighborTree,
 		error("k cannot be larger than the size of the full data set")
 	end
 
-	pq = PriorityQueue{Int, Float64}(Base.Order.Reverse)
+	pq = PriorityQueue(Int, Float64, Base.Order.Reverse)
 	items = 0
 
 	for i in 1:n
